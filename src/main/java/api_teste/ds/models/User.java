@@ -1,6 +1,11 @@
 package api_teste.ds.models;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,13 +17,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 @Entity
 @Table(name = User.TABLE_NAME)
 public class User {
+
+    public interface CreateUser {}
+    public interface UpdateUser {}
 
     public static final String TABLE_NAME = "user";
 

@@ -36,6 +36,11 @@ public  class TaskService {
         ));
     }
 
+    public List<Task> findAllByUserId(Long userId) {
+        this.userService.findById(userId);
+        return this.taskRepository.findByUser_Id(userId);
+    }
+
     //Método para buscar todas as tarefas  vinculadas a um determinado usuario
     public List<Task> findByUserId(Long UserId){
         
