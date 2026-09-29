@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import jakarta.validation.Valid;
 import api_teste.ds.models.Task;
 import api_teste.ds.services.TaskService;
 import api_teste.ds.services.UserService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/task")
@@ -39,9 +39,9 @@ public class TaskController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Task>> findAllByUserId(@PathVariable("userId") Long userId) {
-        this.userService.findById(userId);
-        List<Task> objs = this.taskService.findAllByUserId(userId);
+    public ResponseEntity<List<Task>> findAllByUserId(@PathVariable("userId") Long userid) {
+        this.userService.findById(userid);
+        List<Task> objs = this.taskService.findAllByUserId(userid);
         return ResponseEntity.ok().body(objs);
     }
 
