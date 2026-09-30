@@ -45,7 +45,8 @@ function show(task){
         if(response){
             hideLoader();
         }
-        
+        show(data);
     }
 
 }
+getAPI(url);
