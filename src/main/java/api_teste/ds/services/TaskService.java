@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import api_teste.ds.models.Task;
 import api_teste.ds.models.User;
 import api_teste.ds.repositories.TaskRepository;
+import api_teste.ds.services.exceptions.DataBindingViolationException;
+import api_teste.ds.services.exceptions.ObjectNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 
 
 //Anotação qie indica para o Spring que essa classe contem as regras de negócio
@@ -31,7 +34,7 @@ public  class TaskService {
         Optional<Task> task = this.taskRepository.findById(Id);
 
         // Se a tarefa existir, retorna o objeto, se estiver vazio, lança um RunTimeException
-        return task.orElseThrow(()-> new RuntimeException(
+        return task.orElseThrow(()-> new ObjectNotFoundException(
             "Tarefa não encontrada! Id:"+ Id + ",Tipo:" + Task.class.getName()
         ));
     }
@@ -94,9 +97,11 @@ public  class TaskService {
             try{
                 //Solicita a remoção da tarefa no banco de dados pelo ID 
                 this.taskRepository.deleteById(Id);
-            } catch (Exception e){
+            } catch (DataIntegrityViolationException e){
                 //Capctura execções (como violações de chave estrangeira e lança uma mensagem amigável)
-                throw new RuntimeException("Não é posspivel excuir pois não há tarefas relacionadas");
+                throw new DataBindingViolationException(
+                    "Não é possível excluir pois há tarefas relacionadas."
+                );
             }
         }
     }

@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import api_teste.ds.models.User;
 import api_teste.ds.repositories.TaskRepository;
 import api_teste.ds.repositories.UserRepository;
+import api_teste.ds.services.exceptions.DataBindingViolationException;
+import api_teste.ds.services.exceptions.ObjectNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 
 
 //Anotação que indica no Spring que essa classe contém as regras de negócios da entidade user
@@ -28,7 +31,7 @@ public class UserService{
 
         Optional<User> user = this.userRepository.findById(Id);
 
-        return user.orElseThrow(()-> new RuntimeException(
+        return user.orElseThrow(()-> new ObjectNotFoundException(
             "Usuario não encontrado!" + Id + ", Tipo:" + User.class.getName()
         ));
     }
@@ -72,8 +75,10 @@ public class UserService{
         try{
 
             this.userRepository.deleteById(Id);            
-        } catch (Exception e){
-            throw new RuntimeException("Não é possível exibir pois há entidade relacionadas");
+        } catch (DataIntegrityViolationException e){
+            throw new DataBindingViolationException(
+                "Não é possível excluir pois há tarefas relacionadas."
+            );
         }  
     } 
 }
