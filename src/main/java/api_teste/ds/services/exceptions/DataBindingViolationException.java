@@ -10,4 +10,3 @@ public class DataBindingViolationException extends RuntimeException {
         super(message);
     }
 }
-}}}}
